@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import axios from 'axios'
 import Airline from './Airline'
-import Header from './Header'
+// import Header from './Header'
 import airlinesQuery from '../../queries/airlinesQuery'
 import styled from 'styled-components'
 
@@ -12,17 +12,25 @@ const Home = styled.div`
   max-width: 1200px;
 `
 
+const Header = styled.div`
+  padding: 100px, 100px, 10px, 100px;
+
+  h1 {
+    font-size: 42px;
+  }
+
+`
+const Subheader = styled.div`
+  font-weight: 300;
+  font-size: 26px;
+`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
   width: 100%;
   padding: 20px;
-  > div {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-  }
+ 
 `
 
 const Airlines = () => {
@@ -31,29 +39,31 @@ const Airlines = () => {
   useEffect(() => {
     // This uses the v2 api (graphql) as of 05/09/2020.
     // For the v1 api endpoint use: axios.get('/api/v1/airlines.json')
-    axios.post('/api/v2/graphql', { query: airlinesQuery })
-    .then( resp => setAirlines(resp.data.data.airlines))
-    .catch( data => console.log('error', data))
-  }, [])
+    axios.get('/api/v1/airlines.json')
+    .then( resp => setAirlines(resp.data.data))
+    .catch( resp => console.log(resp))
+  }, [airlines.length])
 
-  const grid = airlines.map( (airline, index) => {
+  const grid = airlines.map(item => {
     return (
-      <Airline 
-        key={index}
-        name={airline.name}
-        image_url={airline.imageUrl}
-        slug={airline.slug}
-        average_score={airline.averageScore}
-      />
+    <Airline 
+      key={item.attributes.name}
+      attributes={item.attributes}  
+    />
     )
   })
-
+ 
   return (
     <Home>
-      <Header/>
-      <Grid>{grid}</Grid>
+      <Header>
+        <h1>Open Flights</h1>
+        <Subheader>Airlines revies!</Subheader>
+      </Header>
+      <Grid>
+        {grid}
+      </Grid>
     </Home>
-  )
+  );
 }
 
 export default Airlines;

@@ -6,10 +6,15 @@ import Rating from '../Rating/Rating'
 const Card = styled.div`
   border: 1px solid #efefef;
   background: #fff;
+  text-align: center;
 `
 
 const AirlineLogo = styled.div`
   height: 50px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
   img {
     height: 50px;
     width: 50px;
@@ -27,24 +32,15 @@ const LinkWrapper = styled.div`
   height:50px;
   a {
     color: #fff;
-    background-color: #71b406;
+    background: #000;   
     border-radius: 4px;
     padding: 10px 50px;
-    cursor: pointer;
     border-radius: 3px;
     border: 1px solid #71b406;
-    text-align: center;
-    line-height: 20px;
-    min-height: 40px;
-    margin: 7px;
-    font-weight: 600;
-    text-decoration: none;
     width: 100%;
-    transition: ease-in-out 0.1s;
-    &:hover{
-      border-color: #619a07;
-      background: #619a07;
-    }
+    margin: 7px;
+    text-decoration: none;
+    
   }
 `
 
@@ -54,12 +50,12 @@ const Airline = (props) => {
   return (
     <Card>
       <AirlineLogo>
-        <img src={props.image_url} alt={props.name} width="50"/>
+        <img src={props.attributes.image_url} alt={props.attributes.name} width="50"/>
       </AirlineLogo>
       <AirlineName>
-        {props.name}
+        {props.attributes.name}
       </AirlineName>
-      <Rating score={average_score} />
+      <Rating score={props.attributes.avg_score} />
       <LinkWrapper>
         <Link to={"/airlines/" + props.slug}>View Airline</Link>
       </LinkWrapper>
